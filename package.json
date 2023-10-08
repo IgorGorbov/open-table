@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "compose-function": "^3.0.3",
     "next": "13.5.4",
+    "next-seo": "^6.1.0",
     "react": "^18",
     "react-dom": "^18"
   },
