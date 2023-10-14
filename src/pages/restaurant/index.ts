@@ -1,2 +1,6 @@
-export { RestaurantDetailsPage } from "./RestaurantDetailsPage";
+export {
+  RestaurantDetailsPage,
+  getStaticProps,
+  getStaticPaths,
+} from "./RestaurantDetailsPage";
 export { RestaurantMenuPage } from "./RestaurantMenuPage";

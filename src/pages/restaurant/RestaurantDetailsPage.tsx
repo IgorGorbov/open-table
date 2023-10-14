@@ -1,4 +1,7 @@
 import React from "react";
+import { GetStaticProps } from "next";
+
+import { getRestaurantBySlug } from "@/entities/restaurant";
 import {
   Description,
   Images,
@@ -8,17 +11,31 @@ import {
   RestaurantPageLayout,
   Reviews,
   Title,
-} from "@/pages/restaurant/ui";
+} from "./ui";
 
-export const RestaurantDetailsPage = () => {
+interface Restaurant {
+  id: number;
+  name: string;
+  images: string[];
+  description: string;
+  slug: string;
+}
+
+interface Props {
+  restaurant: Restaurant;
+}
+
+export const RestaurantDetailsPage = ({
+  restaurant: { name, description, images, slug },
+}: Props) => {
   return (
     <>
       <div className="bg-white w-[70%] rounded p-3 shadow">
-        <RestaurantNavBar />
-        <Title />
+        <RestaurantNavBar slug={slug} />
+        <Title name={name} />
         <Rating />
-        <Description />
-        <Images />
+        <Description description={description} />
+        <Images images={images} />
         <Reviews />
       </div>
       <div className="w-[27%] relative text-reg">
@@ -28,6 +45,42 @@ export const RestaurantDetailsPage = () => {
   );
 };
 
-RestaurantDetailsPage.getLayout = function getLayout(page: React.ReactElement) {
-  return <RestaurantPageLayout>{page}</RestaurantPageLayout>;
+RestaurantDetailsPage.getLayout = function getLayout(
+  page: React.ReactElement,
+  { restaurant }: Props
+) {
+  return (
+    <RestaurantPageLayout title={restaurant.name}>{page}</RestaurantPageLayout>
+  );
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const restaurant = await getRestaurantBySlug(params?.slug as string, {
+    select: {
+      id: true,
+      name: true,
+      images: true,
+      description: true,
+      slug: true,
+    },
+  });
+
+  return {
+    props: {
+      restaurant,
+    },
+  };
+};
+
+export const getStaticPaths = async () => {
+  return {
+    paths: [
+      {
+        params: {
+          slug: "",
+        },
+      },
+    ],
+    fallback: true,
+  };
 };

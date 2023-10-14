@@ -1,1 +1,5 @@
-export { RestaurantDetailsPage as default } from "@/pages/restaurant";
+export {
+  RestaurantDetailsPage as default,
+  getStaticProps,
+  getStaticPaths,
+} from "@/pages/restaurant";
