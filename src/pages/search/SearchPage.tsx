@@ -5,21 +5,31 @@ import {
   RestaurantCardProps,
   RestaurantCard,
   getRestaurants,
+  getFilter,
 } from "@/entities/restaurant";
+import { Location, getLocations } from "@/entities/location";
+import { Cuisine, getCuisines } from "@/entities/cuisine";
 import { SearchSidebar } from "./ui";
+import { ParsedUrlQuery } from "querystring";
 
 interface Props {
   restaurants: RestaurantCardProps[];
+  locations: Location[];
+  cuisines: Cuisine[];
 }
 
-export const SearchPage: React.FC<Props> = ({ restaurants = [] }) => {
+export const SearchPage: React.FC<Props> = ({
+  restaurants = [],
+  locations,
+  cuisines,
+}) => {
   return (
     <>
       <div className="bg-gradient-to-r to-[#5f6984] from-[#0f1f47] p-2">
         <SearchBar />
       </div>
       <div className="flex py-4 m-auto w-2/3 justify-between items-start">
-        <SearchSidebar />
+        <SearchSidebar locations={locations} cuisines={cuisines} />
         <div className="w-5/6">
           {restaurants.map((restaurant) => (
             <RestaurantCard
@@ -28,7 +38,9 @@ export const SearchPage: React.FC<Props> = ({ restaurants = [] }) => {
               restaurant={restaurant}
             />
           ))}
-          {restaurants.length === 0 && <p>Sorry, we found no restaurant in this area</p>}
+          {restaurants.length === 0 && (
+            <p>Sorry, we found no restaurant in this area</p>
+          )}
         </div>
       </div>
     </>
@@ -36,16 +48,10 @@ export const SearchPage: React.FC<Props> = ({ restaurants = [] }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const city = (query.city as string).trim().toLowerCase();
+  const filter = getFilter(query);
 
   const restaurants = await getRestaurants({
-    where: {
-      location: {
-        name: {
-          equals: city,
-        },
-      },
-    },
+    where: filter,
     select: {
       id: true,
       name: true,
@@ -65,7 +71,21 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     },
   });
 
+  const locations = await getLocations({
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+
+  const cuisines = await getCuisines({
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+
   return {
-    props: { restaurants },
+    props: { restaurants, locations, cuisines },
   };
 };

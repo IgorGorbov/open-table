@@ -21,8 +21,14 @@ export const SearchBar = () => {
     return params.toString();
   };
 
-  const handleClick = () => {
+  const startSearch = () => {
     router.push("/search" + "?" + createQueryString("city", location));
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.code == "Enter") {
+      startSearch();
+    }
   };
 
   return (
@@ -33,10 +39,11 @@ export const SearchBar = () => {
         placeholder="State, city or town"
         className="rounded  mr-3 p-2 w-[450px]"
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
       <button
         className="rounded bg-red-600 px-9 py-2 text-white"
-        onClick={handleClick}
+        onClick={startSearch}
       >
         Let's go
       </button>

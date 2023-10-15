@@ -1,0 +1,1 @@
+export { getCuisines } from "./getCuisines";
