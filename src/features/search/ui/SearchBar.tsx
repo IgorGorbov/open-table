@@ -1,10 +1,12 @@
 "use client";
 
 import React, { ChangeEvent, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const SearchBar = () => {
   const router = useRouter();
+
+  const searchParams = useSearchParams()!;
 
   const [location, setLocation] = useState("");
 
@@ -12,7 +14,16 @@ export const SearchBar = () => {
     setLocation(event.target.value);
   };
 
-  const handleClick = () => router.push("/search");
+  const createQueryString = (name: string, value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set(name, value);
+
+    return params.toString();
+  };
+
+  const handleClick = () => {
+    router.push("/search" + "?" + createQueryString("city", location));
+  };
 
   return (
     <div className="text-left text-lg py-3 m-auto flex justify-center">

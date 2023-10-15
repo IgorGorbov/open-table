@@ -7,6 +7,7 @@ import {
   RestaurantCard,
   getRestaurants,
 } from "@/entities/restaurant";
+import { SearchBar } from "@/features/search";
 
 interface Props {
   restaurants: RestaurantCardProps[];
@@ -15,7 +16,9 @@ interface Props {
 export const HomePage: React.FC<Props> = ({ restaurants }) => {
   return (
     <>
-      <Header />
+      <Header>
+        <SearchBar />
+      </Header>
       <RestaurantCards>
         {restaurants.map((restaurant) => (
           <RestaurantCard key={restaurant.id} restaurant={restaurant} />

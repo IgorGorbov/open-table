@@ -2,7 +2,7 @@ import React from "react";
 
 export const SearchSidebar: React.FC = () => {
   return (
-    <div className="w-1/5">
+    <div className="w-1/5 pr-4">
       <div className="border-b pb-4">
         <h1 className="mb-2">Region</h1>
         <p className="font-light text-reg">Toronto</p>
@@ -20,7 +20,7 @@ export const SearchSidebar: React.FC = () => {
       </div>
       <div className="mt-3 pb-4">
         <h1 className="mb-2">Price</h1>
-        <div className="flex">
+        <div className="flex text-sm">
           <button className="border w-full text-reg font-light rounded-l p-2">
             $
           </button>

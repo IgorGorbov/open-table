@@ -1,1 +1,1 @@
-export { SearchPage as default } from "@/pages/search";
+export { SearchPage as default, getServerSideProps } from "@/pages/search";

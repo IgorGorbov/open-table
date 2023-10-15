@@ -1,1 +1,1 @@
-export { SearchPage } from "./SearchPage";
+export { SearchPage, getServerSideProps } from "./SearchPage";
