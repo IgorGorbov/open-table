@@ -1,6 +1,5 @@
 import React from "react";
 import { GetStaticProps } from "next";
-
 import { getRestaurantBySlug } from "@/entities/restaurant";
 import {
   Description,
@@ -54,7 +53,9 @@ RestaurantDetailsPage.getLayout = function getLayout(
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getRestaurantDetailsStaticProps: GetStaticProps = async ({
+  params,
+}) => {
   const restaurant = await getRestaurantBySlug(params?.slug as string, {
     select: {
       id: true,
@@ -72,7 +73,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 };
 
-export const getStaticPaths = async () => {
+export const getRestaurantDetailsStaticPaths = async () => {
   return {
     paths: [
       {

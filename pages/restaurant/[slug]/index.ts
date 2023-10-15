@@ -1,5 +1,5 @@
 export {
   RestaurantDetailsPage as default,
-  getStaticProps,
-  getStaticPaths,
+  getRestaurantDetailsStaticPaths as getStaticPaths,
+  getRestaurantDetailsStaticProps as getStaticProps,
 } from "@/pages/restaurant";

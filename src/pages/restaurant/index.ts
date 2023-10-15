@@ -1,6 +1,10 @@
 export {
   RestaurantDetailsPage,
-  getStaticProps,
-  getStaticPaths,
+  getRestaurantDetailsStaticPaths,
+  getRestaurantDetailsStaticProps,
 } from "./RestaurantDetailsPage";
-export { RestaurantMenuPage } from "./RestaurantMenuPage";
+export {
+  RestaurantMenuPage,
+  getRestaurantMenuStaticPaths,
+  getRestaurantMenuStaticProps,
+} from "./RestaurantMenuPage";

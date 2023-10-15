@@ -1,7 +1,14 @@
 import React from "react";
-import { MenuCard } from "@/pages/restaurant/ui/MenuCard";
 
-export const Menu = () => {
+import { Item } from "@/entities/restaurant";
+
+import { MenuCard } from "./MenuCard";
+
+interface Props {
+  menu: Item[];
+}
+
+export const Menu: React.FC<Props> = ({ menu }) => {
   return (
     <div className="bg-white mt-5">
       <div>
@@ -9,7 +16,9 @@ export const Menu = () => {
           <h1 className="font-bold text-4xl">Menu</h1>
         </div>
         <div className="flex flex-wrap justify-between">
-          <MenuCard />
+          {menu.map((item) => (
+            <MenuCard key={item.id} item={item} />
+          ))}
         </div>
       </div>
     </div>
