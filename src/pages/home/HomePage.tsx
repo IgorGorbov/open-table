@@ -44,6 +44,12 @@ export async function getStaticProps() {
           name: true,
         },
       },
+      reviews: {
+        select: {
+          id: true,
+          rating: true,
+        },
+      },
       slug: true,
       price: true,
     },

@@ -22,7 +22,11 @@ export const SearchBar = () => {
   };
 
   const startSearch = () => {
-    router.push("/search" + "?" + createQueryString("city", location));
+    if (location) {
+      return router.push("/search" + "?" + createQueryString("city", location));
+    }
+
+    router.push("/search");
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {

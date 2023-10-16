@@ -1,7 +1,10 @@
 import React from "react";
 import Link from "next/link";
+import pluralize from "pluralize";
+import { Starts } from "@/shared/ui";
 
-import { PRICE, Cuisine, Location } from "../types";
+import { PRICE, Cuisine, Location, Review } from "../types";
+import { calcReviewRatingAverage, reviewsRatingToText } from "../lib";
 import { Price } from "./Price";
 
 export interface RestaurantCardProps {
@@ -10,6 +13,7 @@ export interface RestaurantCardProps {
   main_image: string;
   cuisine: Cuisine;
   location: Location;
+  reviews: Review[];
   slug: string;
   price: PRICE;
 }
@@ -33,17 +37,21 @@ export const RestaurantCard: React.FC<Props> = ({
 };
 
 const PrimaryCard: React.FC<Omit<Props, "variant">> = ({
-  restaurant: { name, main_image, cuisine, location, slug, price },
+  restaurant: { name, main_image, cuisine, location, slug, price, reviews },
 }) => {
+  const rating = calcReviewRatingAverage(reviews);
+
   return (
     <Link href={`/restaurant/${slug}`}>
       <div className="w-64 h-72 m-3 rounded overflow-hidden border cursor-pointer">
         <img src={main_image} className="w-full h-36" alt="restaurant image" />
         <div className="p-1 text-black">
-          <h3 className="font-bold text-2xl mb-2">{name}</h3>
-          <div className="flex items-start">
-            <div className="flex mb-2">*****</div>
-            <p className="ml-2">77 reviews</p>
+          <h3 className="font-bold text-2xl mb-1">{name}</h3>
+          <div className="flex items-center">
+            <Starts rating={rating} />
+            <p className="ml-2">
+              {reviews.length} {pluralize("review", reviews.length)}
+            </p>
           </div>
           <div className="flex text-reg font-light capitalize">
             <p className="mr-3">{cuisine.name}</p>
@@ -58,16 +66,19 @@ const PrimaryCard: React.FC<Omit<Props, "variant">> = ({
 };
 
 export const SecondaryCard: React.FC<Omit<Props, "variant">> = ({
-  restaurant: { name, main_image, slug, cuisine, location, price },
+  restaurant: { name, main_image, slug, cuisine, location, price, reviews },
 }) => {
+  const rating = calcReviewRatingAverage(reviews);
+  const ratingText = reviewsRatingToText(reviews);
+
   return (
     <div className="border-b flex pb-5">
       <img src={main_image} className="w-44 rounded" alt="restaurant image" />
       <div className="pl-5">
         <h2 className="text-3xl">{name}</h2>
         <div className="flex items-start">
-          <div className="flex mb-2">*****</div>
-          <p className="ml-2 text-sm">Awesome</p>
+          <Starts rating={rating} />
+          <p className="ml-2 text-sm">{ratingText}</p>
         </div>
         <div className="mb-9">
           <div className="font-light flex text-reg">

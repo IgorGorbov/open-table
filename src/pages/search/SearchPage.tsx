@@ -66,6 +66,11 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
           name: true,
         },
       },
+      reviews: {
+        select: {
+          rating: true,
+        },
+      },
       slug: true,
       price: true,
     },

@@ -1,6 +1,10 @@
 import React from "react";
 import { GetStaticProps } from "next";
-import { getRestaurantBySlug } from "@/entities/restaurant";
+import {
+  Review,
+  calcReviewRatingAverage,
+  getRestaurantBySlug,
+} from "@/entities/restaurant";
 import {
   Description,
   Images,
@@ -18,6 +22,7 @@ interface Restaurant {
   images: string[];
   description: string;
   slug: string;
+  reviews: Review[];
 }
 
 interface Props {
@@ -25,17 +30,17 @@ interface Props {
 }
 
 export const RestaurantDetailsPage = ({
-  restaurant: { name, description, images, slug },
+  restaurant: { name, description, images, slug, reviews },
 }: Props) => {
   return (
     <>
       <div className="bg-white w-[70%] rounded p-3 shadow">
         <RestaurantNavBar slug={slug} />
         <Title name={name} />
-        <Rating />
+        <Rating reviews={reviews} />
         <Description description={description} />
         <Images images={images} />
-        <Reviews />
+        <Reviews reviews={reviews} />
       </div>
       <div className="w-[27%] relative text-reg">
         <ReservationCard />
@@ -63,6 +68,22 @@ export const getRestaurantDetailsStaticProps: GetStaticProps = async ({
       images: true,
       description: true,
       slug: true,
+      reviews: {
+        select: {
+          id: true,
+          rating: true,
+          text: true,
+          first_name: true,
+          last_name: true,
+          user: {
+            select: {
+              id: true,
+              first_name: true,
+              last_name: true,
+            },
+          },
+        },
+      },
     },
   });
 

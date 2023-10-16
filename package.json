@@ -13,12 +13,14 @@
     "compose-function": "^3.0.3",
     "next": "13.5.4",
     "next-seo": "^6.1.0",
+    "pluralize": "^8.0.0",
     "prisma": "^5.4.2",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/pluralize": "^0.0.31",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
