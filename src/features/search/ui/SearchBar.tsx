@@ -1,5 +1,3 @@
-"use client";
-
 import React, { ChangeEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
