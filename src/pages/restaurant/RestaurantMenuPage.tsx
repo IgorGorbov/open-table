@@ -1,6 +1,10 @@
 import React from "react";
 import { GetStaticProps } from "next";
-import { Item, getRestaurantBySlug } from "@/entities/restaurant";
+import {
+  Item,
+  getRestaurantBySlug,
+  getRestaurants,
+} from "@/entities/restaurant";
 import { Menu, RestaurantNavBar, RestaurantPageLayout } from "./ui";
 
 interface Restaurant {
@@ -62,14 +66,22 @@ export const getRestaurantMenuStaticProps: GetStaticProps = async ({
 };
 
 export const getRestaurantMenuStaticPaths = async () => {
-  return {
-    paths: [
-      {
-        params: {
-          slug: "",
-        },
+  const restaurants = await getRestaurants({
+    select: {
+      slug: true,
+    },
+  });
+
+  const paths = restaurants.map((restaurant) => {
+    return {
+      params: {
+        slug: restaurant.slug,
       },
-    ],
+    };
+  });
+
+  return {
+    paths,
     fallback: true,
   };
 };

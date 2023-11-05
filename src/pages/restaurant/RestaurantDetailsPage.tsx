@@ -2,8 +2,8 @@ import React from "react";
 import { GetStaticProps } from "next";
 import {
   Review,
-  calcReviewRatingAverage,
   getRestaurantBySlug,
+  getRestaurants,
 } from "@/entities/restaurant";
 import {
   Description,
@@ -23,8 +23,8 @@ interface Restaurant {
   description: string;
   slug: string;
   reviews: Review[];
-  open_time: string,
-  close_time: string,
+  open_time: string;
+  close_time: string;
 }
 
 interface Props {
@@ -32,7 +32,15 @@ interface Props {
 }
 
 export const RestaurantDetailsPage = ({
-  restaurant: { name, description, images, slug, reviews, open_time, close_time, },
+  restaurant: {
+    name,
+    description,
+    images,
+    slug,
+    reviews,
+    open_time,
+    close_time,
+  },
 }: Props) => {
   return (
     <>
@@ -99,14 +107,22 @@ export const getRestaurantDetailsStaticProps: GetStaticProps = async ({
 };
 
 export const getRestaurantDetailsStaticPaths = async () => {
-  return {
-    paths: [
-      {
-        params: {
-          slug: "",
-        },
+  const restaurants = await getRestaurants({
+    select: {
+      slug: true,
+    },
+  });
+
+  const paths = restaurants.map((restaurant) => {
+    return {
+      params: {
+        slug: restaurant.slug,
       },
-    ],
+    };
+  });
+
+  return {
+    paths,
     fallback: true,
   };
 };
