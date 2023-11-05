@@ -3,3 +3,4 @@ export {
   calcReviewRatingAverage,
   reviewsRatingToText,
 } from "./calcReviewRatingAverage";
+export { filterTimeByRestaurantWindow } from "./filterTimeByRestaurantWindow";

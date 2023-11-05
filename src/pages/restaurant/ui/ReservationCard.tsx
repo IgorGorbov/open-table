@@ -1,4 +1,18 @@
-export const ReservationCard = () => {
+import { useState } from "react";
+import DatePicker from "react-datepicker";
+import { partySize, times } from "@/shared/config";
+import { filterTimeByRestaurantWindow } from "@/entities/restaurant";
+
+interface Props {
+  openTime: string;
+  closeTime: string;
+}
+
+export const ReservationCard: React.FC<Props> = ({ openTime, closeTime }) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+
+  const handleChangeDate = (date: Date) => setSelectedDate(date);
+
   return (
     <div className="fixed w-[15%] bg-white rounded p-3 shadow">
       <div className="text-center border-b pb-2 font-bold">
@@ -7,20 +21,31 @@ export const ReservationCard = () => {
       <div className="my-3 flex flex-col">
         <label htmlFor="">Party size</label>
         <select name="" className="py-3 border-b font-light" id="">
-          <option value="">1 person</option>
-          <option value="">2 people</option>
+          {partySize.map((size) => (
+            <option key={size.value} value={size.value}>
+              {size.label}
+            </option>
+          ))}
         </select>
       </div>
       <div className="flex justify-between">
         <div className="flex flex-col w-[48%]">
-          <label htmlFor="">Date</label>
-          <input type="text" className="py-3 border-b font-light w-28" />
+          <label>Date</label>
+          <DatePicker
+            className="py-3 font-light border-b text-reg w-24 leading-tight"
+            dateFormat="MMMM d"
+            selected={selectedDate}
+            onChange={handleChangeDate}
+          />
         </div>
         <div className="flex flex-col w-[48%]">
-          <label htmlFor="">Time</label>
-          <select name="" id="" className="py-3 border-b font-light">
-            <option value="">7:30 AM</option>
-            <option value="">9:30 AM</option>
+          <label>Time</label>
+          <select className="py-3 border-b font-light">
+            {filterTimeByRestaurantWindow(openTime, closeTime).map((time) => (
+              <option key={time.time} value={time.time}>
+                {time.displayTime}
+              </option>
+            ))}
           </select>
         </div>
       </div>

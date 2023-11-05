@@ -23,6 +23,8 @@ interface Restaurant {
   description: string;
   slug: string;
   reviews: Review[];
+  open_time: string,
+  close_time: string,
 }
 
 interface Props {
@@ -30,7 +32,7 @@ interface Props {
 }
 
 export const RestaurantDetailsPage = ({
-  restaurant: { name, description, images, slug, reviews },
+  restaurant: { name, description, images, slug, reviews, open_time, close_time, },
 }: Props) => {
   return (
     <>
@@ -43,7 +45,7 @@ export const RestaurantDetailsPage = ({
         <Reviews reviews={reviews} />
       </div>
       <div className="w-[27%] relative text-reg">
-        <ReservationCard />
+        <ReservationCard openTime={open_time} closeTime={close_time} />
       </div>
     </>
   );
@@ -68,6 +70,8 @@ export const getRestaurantDetailsStaticProps: GetStaticProps = async ({
       images: true,
       description: true,
       slug: true,
+      open_time: true,
+      close_time: true,
       reviews: {
         select: {
           id: true,
