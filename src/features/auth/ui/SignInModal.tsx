@@ -1,9 +1,11 @@
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { ModalProps, Modal } from "@/shared/ui";
+import { ModalProps, Modal, Loader } from "@/shared/ui";
 import { AuthInput } from "./AuthInput";
 import { AuthButton } from "./AuthButton";
+import { useAuth } from "../hooks";
+import { useAuthState } from "../AuthContext";
 
 interface Inputs {
   email: string;
@@ -11,13 +13,18 @@ interface Inputs {
 }
 
 export const SignInModal: React.FC<ModalProps> = (props) => {
+  const { loading, error } = useAuthState();
+
+  const { signIn } = useAuth();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) =>
+    signIn(data).then(() => props.onClose());
 
   return (
     <Modal {...props}>
@@ -46,8 +53,15 @@ export const SignInModal: React.FC<ModalProps> = (props) => {
           {...register("password", { required: true })}
           errorMessage={errors.password?.message}
         />
+        {error && (
+          <div>
+            <span className="text-sm text-red-500">{error}</span>
+          </div>
+        )}
         <div className="my-5">
-          <AuthButton>Sign In</AuthButton>
+          <AuthButton disabled={loading}>
+            {loading ? <Loader /> : "Sign In"}
+          </AuthButton>
         </div>
       </form>
     </Modal>
