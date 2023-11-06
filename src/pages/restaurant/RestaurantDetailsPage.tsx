@@ -53,7 +53,11 @@ export const RestaurantDetailsPage = ({
         <Reviews reviews={reviews} />
       </div>
       <div className="w-[27%] relative text-reg">
-        <ReservationCard openTime={open_time} closeTime={close_time} />
+        <ReservationCard
+          slug={slug}
+          openTime={open_time}
+          closeTime={close_time}
+        />
       </div>
     </>
   );
