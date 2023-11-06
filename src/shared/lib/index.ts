@@ -1,4 +1,6 @@
-export function formatDate(date: Date) {
+import { format } from "date-fns";
+
+export function getDayFromDate(date: Date) {
   return date?.toISOString().split("T")[0];
 }
 
@@ -58,3 +60,7 @@ export type Time = keyof typeof displayTimeObject;
 export const convertToDisplayTime = (time: Time) => {
   return displayTimeObject[time];
 };
+
+export function formatDate(date: string, dateFormat = "ccc, LLL, d") {
+  return format(new Date(date), dateFormat);
+}

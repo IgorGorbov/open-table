@@ -1,1 +1,5 @@
-export { ReservePage } from "./ReservePage";
+export {
+  ReservePage,
+  getReserveStaticProps,
+  getReserveStaticPaths,
+} from "./ReservePage";

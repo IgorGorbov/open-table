@@ -1,1 +1,5 @@
-export { ReservePage as default } from "@/pages/reserve";
+export {
+  ReservePage as default,
+  getReserveStaticPaths as getStaticPaths,
+  getReserveStaticProps as getStaticProps,
+} from "@/pages/reserve";

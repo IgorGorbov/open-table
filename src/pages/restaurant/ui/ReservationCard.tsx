@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import { partySizes } from "@/shared/config";
 import { filterTimeByRestaurantWindow } from "@/entities/restaurant";
 import { useAvailabilities } from "@/entities/availability";
-import { convertToDisplayTime, formatDate } from "@/shared/lib";
+import { convertToDisplayTime, getDayFromDate } from "@/shared/lib";
 import { Loader } from "@/shared/ui";
 
 interface Props {
@@ -25,7 +25,7 @@ export const ReservationCard: React.FC<Props> = ({
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState<string>(openTime);
 
-  const day = formatDate(date);
+  const day = getDayFromDate(date);
 
   const handleChangePartySize = (event: ChangeEvent<HTMLSelectElement>) =>
     setPartySize(Number(event.target.value));
